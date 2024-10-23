@@ -1,30 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 10 // Maximum size of the stack
-
-// Stack structure
+#define MAX 10  
+ 
 struct Stack {
     int arr[MAX];
     int top;
 };
-
-// Function prototypes
+  
 void push(struct Stack *s, int value);
 int pop(struct Stack *s);
+int isEmpty(struct Stack *s);
+int isFull(struct Stack *s);
+int peek(struct Stack *s);
 void display(struct Stack *s);
 
 int main() {
     struct Stack s;
-    s.top = -1; // Initialize top
+    s.top = -1; 
     int choice, value;
 
     while (1) {
         printf("\nStack Operations Menu:\n");
         printf("1. Push\n");
         printf("2. Pop\n");
-        printf("3. Display\n");
-        printf("4. Exit\n");
+        printf("3. Peek\n");
+        printf("4. Display\n");
+        printf("5. Check if empty\n");
+        printf("6. Check if full\n");
+        printf("7. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -41,9 +45,29 @@ int main() {
                 }
                 break;
             case 3:
-                display(&s);
+                value = peek(&s);
+                if (value != -1) {
+                    printf("Top value: %d\n", value);
+                }
                 break;
             case 4:
+                display(&s);
+                break;
+            case 5:
+                if (isEmpty(&s)) {
+                    printf("Stack is empty.\n");
+                } else {
+                    printf("Stack is not empty.\n");
+                }
+                break;
+            case 6:
+                if (isFull(&s)) {
+                    printf("Stack is full.\n");
+                } else {
+                    printf("Stack is not full.\n");
+                }
+                break;
+            case 7:
                 printf("Exiting...\n");
                 exit(0);
             default:
@@ -52,30 +76,28 @@ int main() {
     }
     return 0;
 }
-
-// Push function
+int isEmpty(struct Stack *s) {
+    return s->top == -1;
+}
 void push(struct Stack *s, int value) {
-    if (s->top == MAX - 1) {
+    if (isFull(s)) {
         printf("Stack Overflow! Unable to push %d\n", value);
     } else {
         s->arr[++s->top] = value;
         printf("Pushed %d onto the stack.\n", value);
     }
 }
-
-// Pop function
+ 
 int pop(struct Stack *s) {
-    if (s->top == -1) {
+    if (isEmpty(s)) {
         printf("Stack Underflow! Unable to pop from an empty stack.\n");
-        return -1; // Return -1 if stack is empty
+        return -1;  
     } else {
         return s->arr[s->top--];
     }
 }
-
-// Display function
 void display(struct Stack *s) {
-    if (s->top == -1) {
+    if (isEmpty(s)) {
         printf("Stack is empty.\n");
     } else {
         printf("Stack elements: ");
@@ -85,3 +107,20 @@ void display(struct Stack *s) {
         printf("\n");
     }
 }
+ 
+int peek(struct Stack *s) {
+    if (isEmpty(s)) {
+        printf("Stack is empty. No top element.\n");
+        return -1; 
+    } else {
+        return s->arr[s->top];
+    }
+}
+ 
+
+ 
+int isFull(struct Stack *s) {
+    return s->top == MAX - 1;
+}
+ 
+
