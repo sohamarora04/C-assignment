@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Node structure
 struct Node {
     int data;
     struct Node* next;
 };
 
-// Function to create a new node
 struct Node* createNode(int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
@@ -15,7 +13,6 @@ struct Node* createNode(int data) {
     return newNode;
 }
 
-// Stack operations
 void push(struct Node** top, int data) {
     struct Node* newNode = createNode(data);
     newNode->next = *top;
@@ -36,7 +33,6 @@ int pop(struct Node** top) {
     return data;
 }
 
-// Queue operations
 void enqueue(struct Node** rear, struct Node** front, int data) {
     struct Node* newNode = createNode(data);
     if (*rear == NULL) {
@@ -57,14 +53,13 @@ int dequeue(struct Node** front, struct Node** rear) {
     struct Node* temp = *front;
     *front = (*front)->next;
     if (*front == NULL) {
-        *rear = NULL;  // If queue becomes empty
+        *rear = NULL;
     }
     free(temp);
     printf("Dequeued %d from queue\n", data);
     return data;
 }
 
-// Display function to display the stack or queue
 void display(struct Node* head) {
     if (head == NULL) {
         printf("List is empty\n");
@@ -78,11 +73,10 @@ void display(struct Node* head) {
     printf("NULL\n");
 }
 
-// Main function
 int main() {
-    struct Node* stack = NULL;  // Stack top pointer
-    struct Node* front = NULL;  // Queue front pointer
-    struct Node* rear = NULL;   // Queue rear pointer
+    struct Node* stack = NULL;
+    struct Node* front = NULL;
+    struct Node* rear = NULL;
     int choice, data;
 
     while (1) {
@@ -103,34 +97,27 @@ int main() {
                 scanf("%d", &data);
                 push(&stack, data);
                 break;
-
             case 2:
                 pop(&stack);
                 break;
-
             case 3:
                 printf("Stack: ");
                 display(stack);
                 break;
-
             case 4:
                 printf("Enter data to enqueue into queue: ");
                 scanf("%d", &data);
                 enqueue(&rear, &front, data);
                 break;
-
             case 5:
                 dequeue(&front, &rear);
                 break;
-
             case 6:
                 printf("Queue: ");
                 display(front);
                 break;
-
             case 7:
                 exit(0);
-
             default:
                 printf("Invalid choice. Please try again.\n");
         }
